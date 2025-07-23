@@ -8,18 +8,17 @@ namespace Netwise.Controllers;
 [Route("api/[controller]")]
 public class CatFactController {
     
-    private readonly CatFactServiceImpl _catFactService; //todo zamienic na interfejs a nie impl
+    private readonly ICatFactService _catFactService; 
 
-    public CatFactController(CatFactServiceImpl catFactService)
+    public CatFactController(ICatFactService catFactService)
     {
         _catFactService = catFactService;
     }
 
-
     [HttpGet]
-    public async Task<CatFactResponse?> GetCatFactResponse()
+    public async Task<CatFactResponse?> GetCatFactResponseAsync()
     {
-        return await _catFactService.GetCatFactResponse();
+        return await _catFactService.GetCatFactResponseAsync();
 
 
     }

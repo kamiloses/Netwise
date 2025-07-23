@@ -2,14 +2,21 @@ using Netwise.Middlewares;
 using Netwise.Services;
 using Netwise.Services.Impl;
 
-var builder = WebApplication.CreateBuilder(args);
-//builder.Services.AddScoped<CatFactService,CatFactServiceImpl>();//todo sprawdz czy scope czy inny
-builder.Services.AddScoped<CatFactServiceImpl>();
-builder.Services.AddHttpClient<CatFactService>();
-builder.Services.AddControllers();
-var app = builder.Build();
-app.UseMiddleware<ExceptionHandlerMiddleware>();
-app.MapControllers();
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddScoped<ICatFactService, CatFactServiceImpl>(); //todo sprawdz czy scope czy inny
+        builder.Services.AddHttpClient<IHttpClientWrapper, HttpClientWrapper>();
+        builder.Services.AddControllers();
+        var app = builder.Build();
+        app.UseMiddleware<ExceptionHandlerMiddleware>();
+        app.MapControllers();
 
 
-app.Run();
+        app.Run();
+
+    }
+}

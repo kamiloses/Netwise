@@ -3,18 +3,18 @@ using Netwise.Exceptions;
 
 namespace Netwise.Services.Impl;
 
-public class CatFactServiceImpl
+public class CatFactServiceImpl : ICatFactService
 {
-    private readonly HttpClient _httpClient;
-    private const string Url = "https://catfact.ninja/factxxcz";
+    private readonly IHttpClientWrapper _httpClient;
+    private const string Url = "https://catfact.ninja/fact";
+    private const string filePath = "catfacts.txt";
 
-    public CatFactServiceImpl(HttpClient httpClient)
+    public CatFactServiceImpl(IHttpClientWrapper httpClient)
     {
         _httpClient = httpClient;
     }
 
-
-    public async Task<CatFactResponse> GetCatFactResponse()
+    public async Task<CatFactResponse> GetCatFactResponseAsync()
     {
 
         var response = await _httpClient.GetAsync(Url);
@@ -32,10 +32,25 @@ public class CatFactServiceImpl
            throw new ExternalApiException("There was some problem with fetching data from the external Api.");
        }
 
-
+           CreateLocalFileIfNotExists(data.Fact);
        return data;
        
         
         
     }
+
+    private void CreateLocalFileIfNotExists(string fact)
+    {
+        string filePath = "catfacts.txt";
+
+        if (!File.Exists(filePath))
+        {
+            File.WriteAllText(filePath, fact + Environment.NewLine);
+        }
+        else
+        {
+            File.AppendAllText(filePath, fact + Environment.NewLine);
+        }
+    }
 }
+    
