@@ -4,7 +4,7 @@ namespace Netwise.Services;
 
 public interface ICatFactService
 {
-     Task<CatFactResponse> GetCatFactResponseAsync();
+     Task<CatFactResponse> FetchCatFactResponseAsync();
      
      
      

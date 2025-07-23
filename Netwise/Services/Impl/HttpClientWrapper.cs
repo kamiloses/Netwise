@@ -1,7 +1,5 @@
 ﻿namespace Netwise.Services.Impl;
 
-//Added for easier mocking 
-
 public class HttpClientWrapper : IHttpClientWrapper
 {
     private readonly HttpClient _httpClient;
@@ -11,7 +9,7 @@ public class HttpClientWrapper : IHttpClientWrapper
         _httpClient = httpClient;
     }
 
-
+    //Added for easier mocking 
     public async Task<HttpResponseMessage> GetAsync(string url)
     {
         

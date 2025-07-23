@@ -6,51 +6,41 @@ namespace Netwise.Services.Impl;
 public class CatFactServiceImpl : ICatFactService
 {
     private readonly IHttpClientWrapper _httpClient;
+    private readonly ILogger<CatFactServiceImpl> _logger;
     private const string Url = "https://catfact.ninja/fact";
-    private const string filePath = "catfacts.txt";
 
-    public CatFactServiceImpl(IHttpClientWrapper httpClient)
+    public CatFactServiceImpl(IHttpClientWrapper httpClient, ILogger<CatFactServiceImpl> logger)
     {
         _httpClient = httpClient;
+        _logger = logger;
     }
 
-    public async Task<CatFactResponse> GetCatFactResponseAsync()
+    public async Task<CatFactResponse> FetchCatFactResponseAsync()
     {
 
         var response = await _httpClient.GetAsync(Url);
-
+        
+        
         if (!response.IsSuccessStatusCode)
         {
-            throw new ExternalApiException("There was some problem with connecting to the external Api : " + response.ReasonPhrase);
+            _logger.LogError($"Error with connecting to external Api {Url}");
+            throw new ExternalApiException($"There was a problem connecting to the external API. Reason: {response.ReasonPhrase}");
         }
 
 
         var data = await response.Content.ReadFromJsonAsync<CatFactResponse>();
 
+        
        if (data == null || string.IsNullOrWhiteSpace(data.Fact))
        {
+           _logger.LogError($"Error while fetching data from {Url}");
            throw new ExternalApiException("There was some problem with fetching data from the external Api.");
        }
-
-           CreateLocalFileIfNotExists(data.Fact);
-       return data;
        
-        
-        
+       _logger.LogInformation($"Saved {data.Fact} to file");
+       
+          return data;
     }
-
-    private void CreateLocalFileIfNotExists(string fact)
-    {
-        string filePath = "catfacts.txt";
-
-        if (!File.Exists(filePath))
-        {
-            File.WriteAllText(filePath, fact + Environment.NewLine);
-        }
-        else
-        {
-            File.AppendAllText(filePath, fact + Environment.NewLine);
-        }
-    }
+    
 }
     

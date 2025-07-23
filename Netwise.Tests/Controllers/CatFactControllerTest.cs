@@ -23,11 +23,6 @@ public class CatFactControllerTest : IClassFixture<WebApplicationFactory<Program
         _client = factory.CreateClient(); 
     }
     
-    
-    
-    
-    
-  
 
     [Fact]
     public async Task GetCatFact_ShouldReturn200AndValidResponse()

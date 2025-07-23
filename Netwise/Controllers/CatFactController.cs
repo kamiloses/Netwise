@@ -1,28 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Netwise.Dto;
 using Netwise.Services;
-using Netwise.Services.Impl;
 
 namespace Netwise.Controllers;
+
 [ApiController]
 [Route("api/[controller]")]
-public class CatFactController {
-    
-    private readonly ICatFactService _catFactService; 
+public class CatFactController
+{
+    private readonly ICatFactService _catFactService;
+    private readonly IFileStorageService _fileStorageService;
 
-    public CatFactController(ICatFactService catFactService)
+    public CatFactController(ICatFactService catFactService, IFileStorageService fileStorageService)
     {
         _catFactService = catFactService;
+        _fileStorageService = fileStorageService;
     }
 
     [HttpGet]
-    public async Task<CatFactResponse?> GetCatFactResponseAsync()
+    public async Task<CatFactResponse> GetCatFactResponseAsync()
     {
-        return await _catFactService.GetCatFactResponseAsync();
+        CatFactResponse data = await _catFactService.FetchCatFactResponseAsync();
 
+      await  _fileStorageService.SaveToFile(data.Fact);
 
+        return data;
     }
-    
-    
-    
 }
