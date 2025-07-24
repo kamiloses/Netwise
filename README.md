@@ -39,5 +39,6 @@
     type catfacts.txt
     ````
 
+<img width="1660" height="746" alt="image" src="https://github.com/user-attachments/assets/971d1708-b93b-4598-a0d4-6b8e2ae4fc9e" />
 
 
