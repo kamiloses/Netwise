@@ -1,3 +1,22 @@
+# Netwise – Cat Fact Logger API
+
+A simple .NET Web API that fetches random cat facts from an external API and stores them in a local `.txt` file.
+
+## Features
+
+- Connects to `https://catfact.ninja/fact`
+- Appends each fetched fact to a local `catfacts.txt` file (one per request)
+- Designed using:
+  - ASP.NET Core Web API
+  - Dependency Injection
+  - Custom Middleware for exception handling
+  - Logging
+  - Configuration via `appsettings.json`
+- Includes unit and integration tests
+
+---
+
+
 # How to run the application locally
 
 1. Clone the repository:
