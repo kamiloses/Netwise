@@ -25,7 +25,7 @@ public class CatFactControllerTest : IClassFixture<WebApplicationFactory<Program
     
 
     [Fact]
-    public async Task GetCatFact_ShouldReturn200AndValidResponse()
+    public async Task GetCatFact_ShouldReturnValidResponse()
     {
         var response = await _client.GetAsync("/api/CatFact");
 
